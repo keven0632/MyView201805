@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,9 +8,34 @@
     tools:context="com.kevenzheng.myview201805.MainActivity">
 
     <com.kevenzheng.myview201805.view.MytextView01
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="10dp"
         app:text="@string/app_name"
         app:textColor="@color/colorAccent"
-        app:textSize="13sp"/>
+        app:textSize="30sp" />
+
+    <com.kevenzheng.myview201805.view.MyProgressView03
+        android:visibility="gone"
+        android:id="@+id/progressView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        app:backgroud_color="@color/colorPrimary"
+        app:max_num="1000"
+        app:progress_color="@color/colorAccent"
+        app:text03="30"
+        app:text_color="@color/colorAccent"
+        app:text_size="40sp" />
+
+    <com.kevenzheng.myview201805.view.MyTextView001
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:text01="hello world"
+        app:text_color01="@color/colorAccent"
+        app:text_size01="15sp" />
 </LinearLayout>

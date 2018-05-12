@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -23,7 +24,7 @@ import com.kevenzheng.myview201805.R;
 public class MytextView01 extends View {
 
     private int mColor;
-    private String mText1 = "";
+    private String mText1;
     private int mTextSize = 14;
     private Paint mPaint;
 
@@ -54,8 +55,12 @@ public class MytextView01 extends View {
         typedArray.recycle();
 
         mPaint = new Paint();
+        //设置颜色
         mPaint.setColor(mColor);
+        //设置画笔
         mPaint.setTextSize(mTextSize);
+        //设置抗锯齿
+        mPaint.setAntiAlias(true);
     }
 
     /**
@@ -64,29 +69,59 @@ public class MytextView01 extends View {
      * @param widthMeasureSpec
      * @param heightMeasureSpec
      */
-    // widthMeasureSpec包含两个信息  模式：2位  值：30位
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        //布局的宽高都是有这个方法指定
-//        //指定控件的宽高，需要测量
-//
-//        //获取当前控件宽高的模式
-//        int width_mode = MeasureSpec.getMode(widthMeasureSpec);//获取的是对应模式的两位
-//        int heght_mode = MeasureSpec.getMode(heightMeasureSpec);
-    //   int size = MeasureSpec.getSize(widthMeasureSpec);//获取的是代表值的30位
-//
-//
-//        //MeasureSpec.EXACTLY 在布局中指定了确切的值 或者是match_parent fill_parent
-//        //MeasureSpec.AT_MOST 在布局中指定了wrap_content
-//        //MeasureSpec.UNSPECIFIED 尽可能的大（不常用）ListView，ScroolView 在测量子布局的时候会使用UNSPECIFIED
-//        if (width_mode == MeasureSpec.AT_MOST) {
-//
-//        } else {
-//
-//        }
-//
-//    }
+    //widthMeasureSpec包含两个信息  模式：2位  值：30位
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        //布局的宽高都是有这个方法指定
+        //指定控件的宽高，需要测量
+
+        //获取当前控件宽高的模式
+        int width_mode = MeasureSpec.getMode(widthMeasureSpec);//获取的是对应模式的两位
+        int heght_mode = MeasureSpec.getMode(heightMeasureSpec);
+
+        //MeasureSpec.EXACTLY 在布局中指定了确切的值 或者是match_parent fill_parent
+        //MeasureSpec.AT_MOST 在布局中指定了wrap_content
+        //MeasureSpec.UNSPECIFIED 尽可能的大（不常用）ListView，ScroolView 在测量子布局的时候会使用UNSPECIFIED
+
+        //确定的大小，不需要测量
+        int width = MeasureSpec.getSize(widthMeasureSpec);//获取的是代表值的30位
+
+        if (width_mode == MeasureSpec.AT_MOST) {
+            //传入的是wrap_content需要进行测量
+            //计算的宽度与字体的长度有关 与字体的小大 用画笔来测量
+            Rect bounds = new Rect();
+            //获取文本的Rect
+            mPaint.getTextBounds(mText1, 0, mText1.length(), bounds);
+            width = bounds.width() + getPaddingLeft() + getPaddingRight();
+
+        }
+
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+
+        if (heght_mode == MeasureSpec.AT_MOST) {
+            Rect bounds = new Rect();
+            mPaint.getTextBounds(mText1, 0, mText1.length(), bounds);
+            height = bounds.height() + getPaddingTop() + getPaddingBottom();
+        }
+
+        //设置控件的宽高
+        setMeasuredDimension(width, height);
+
+    }
+
+    /**
+     * baseline是基线，在Android中绘制文本都是从baseline处开始的，从baseline往上至至文本最高处的距离称之为ascent(上坡度)，
+     * baseline至文本最低处的距离称之为descent(下坡度)。
+     * top和bottom是绘制文本时在最外层留出的一些内边距。
+     * baseline是基线，baseline以上是负值，baseline以下是正值，因此ascent和top都是负值，descent和bottom都是正值。
+     * 文本的实际高度应该就是descent-asscent,但是一般都是以top-bottom作为文本的高度。
+     * <p>
+     * Paint.FontMetricsInt fontMetricsInt = mPaint.getFontMetricsInt();
+     * int dy = (fontMetricsInt.bottom - fontMetricsInt.top) / 2 - fontMetricsInt.bottom;
+     *
+     * @param canvas
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -99,7 +134,9 @@ public class MytextView01 extends View {
         //画文本
 //        canvas.drawText("", 4, 4, paint);
 
-        canvas.drawText(mText1, 0, mText1.length(), 100, 100, mPaint);
+        Paint.FontMetricsInt fontMetricsInt = mPaint.getFontMetricsInt();
+        int dy = (fontMetricsInt.bottom - fontMetricsInt.top) / 2 - fontMetricsInt.bottom;
+        canvas.drawText(mText1, getPaddingLeft(), getHeight() / 2 + dy, mPaint);
     }
 
     /**

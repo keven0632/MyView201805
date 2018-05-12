@@ -6,16 +6,31 @@
         dimension（sp,dp）(宽高) ，integer（数字）
         reference 资源(drawable)
         ...-->
-        <attr name="textColor" format="color"/>
-        <attr name="textSize" format="dimension"/>
-        <attr name="text" format="string"/>
-        <attr name="maxLength" format="integer"/>
+        <attr name="textColor" format="color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="text" format="string" />
+        <attr name="maxLength" format="integer" />
         <!--background 自定义View 是继承自View 背景都是View去管理的<attr name="background" format="reference"/>-->
         <!-- 枚举-->
         <attr name="inputType">
-            <enum name="number" value="1"/>
-            <enum name="string" value="2"/>
-            <enum name="password" value="3"/>
+            <enum name="number" value="1" />
+            <enum name="string" value="2" />
+            <enum name="password" value="3" />
         </attr>
+    </declare-styleable>
+
+    <declare-styleable name="MyProgressView03">
+        <attr name="backgroud_color" format="color" />
+        <attr name="progress_color" format="color" />
+        <attr name="text_size" format="dimension" />
+        <attr name="text_color" format="color" />
+        <attr name="max_num" format="integer"/>
+        <attr name="text03" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="MyTextView001">
+        <attr name="text01" format="string"/>
+        <attr name="text_color01" format="color"/>
+        <attr name="text_size01" format="dimension"/>
     </declare-styleable>
 </resources>
